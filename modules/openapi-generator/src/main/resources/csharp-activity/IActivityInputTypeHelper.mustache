@@ -1,1 +1,1 @@
-{{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isContainer}}{{packageName}}.{{modelPackage}}.{{{dataType}}}{{/isContainer}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{/isPrimitiveType}}
+{{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{packageName}}.{{modelPackage}}.{{{dataType}}}, {{packageName}}, Version={{packageVersion}}.0, Culture=neutral, PublicKeyToken=null{{/isModel}}{{^isModel}}{{{dataType}}}{{/isModel}}{{/isPrimitiveType}}

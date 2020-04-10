@@ -5,6 +5,9 @@ import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.parameters.Parameter;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 import java.util.*;
@@ -104,14 +107,14 @@ public class CsharpActivityClientCodegen extends CSharpClientCodegen {
         typeMapping.put("UUID", "System.Guid?");
         typeMapping.put("URI", "System.String");
 
-                // nullable type
-                nullableType = new HashSet<String>(
-                    Arrays.asList("System.Decimal", "System.Boolean", "System.Int32", "System.Float", "System.Long", "System.Double", "System.DateTime", "System.DateTimeOffset", "System.Guid")
-            );
-            // value Types
-            valueTypes = new HashSet<String>(
-                    Arrays.asList("System.Decimal", "System.Boolean", "System.Int32", "System.Float", "System.Long", "System.Double")
-            );
+        // nullable type
+        nullableType = new HashSet<String>(
+            Arrays.asList("System.Decimal", "System.Boolean", "System.Int32", "System.Float", "System.Long", "System.Double", "System.DateTime", "System.DateTimeOffset", "System.Guid")
+        );
+        // value Types
+        valueTypes = new HashSet<String>(
+                Arrays.asList("System.Decimal", "System.Boolean", "System.Int32", "System.Float", "System.Long", "System.Double")
+        );
     }
 
     public void processOpts() {
@@ -138,5 +141,35 @@ public class CsharpActivityClientCodegen extends CSharpClientCodegen {
         }
 
         return escapeText(value);
+    }
+
+    @Override
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            return getArrayTypeDeclaration((ArraySchema) p);
+        } else if (ModelUtils.isMapSchema(p)) {
+            // Should we also support maps of maps?
+            Schema inner = ModelUtils.getAdditionalProperties(p);
+            return getSchemaType(p) + "<System.String, " + getTypeDeclaration(inner) + ">";
+        }
+        return super.getTypeDeclaration(p);
+    }
+
+    /**
+     * Provides C# strongly typed declaration for simple arrays of some type and arrays of arrays of some type.
+     *
+     * @param arr The input array property
+     * @return The type declaration when the type is an array of arrays.
+     */
+    private String getArrayTypeDeclaration(ArraySchema arr) {
+        // TODO: collection type here should be fully qualified namespace to avoid model conflicts
+        // This supports arrays of arrays.
+        String arrayType = typeMapping.get("array");
+        StringBuilder instantiationType = new StringBuilder(arrayType);
+        Schema items = arr.getItems();
+        String nestedType = getTypeDeclaration(items);
+        // TODO: We may want to differentiate here between generics and primitive arrays.
+        instantiationType.append("<").append(nestedType).append(">");
+        return instantiationType.toString();
     }
 }
