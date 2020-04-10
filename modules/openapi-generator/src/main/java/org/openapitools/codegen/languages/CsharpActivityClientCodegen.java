@@ -17,8 +17,6 @@ import org.slf4j.LoggerFactory;
 public class CsharpActivityClientCodegen extends CSharpClientCodegen {
     public static final String PROJECT_NAME = "projectName";
 
-    protected boolean netCoreProjectFileFlag = true;
-    protected boolean supportNullable = Boolean.TRUE;
     static Logger LOGGER = LoggerFactory.getLogger(CsharpActivityClientCodegen.class);
 
     public CodegenType getTag() {
@@ -35,6 +33,8 @@ public class CsharpActivityClientCodegen extends CSharpClientCodegen {
 
     public CsharpActivityClientCodegen() {
         super();
+        netCoreProjectFileFlag = true;
+        supportNullable = Boolean.TRUE;
         languageSpecificPrimitives = new HashSet<String>(
                     Arrays.asList(
                         "string",
@@ -125,5 +125,18 @@ public class CsharpActivityClientCodegen extends CSharpClientCodegen {
         return "System.String".equalsIgnoreCase(dataType) ||
                 "System.Double?".equals(dataType) || "System.Decimal?".equals(dataType) || "System.Float?".equals(dataType) ||
                 "System.Double".equals(dataType) || "System.Decimal".equals(dataType) || "System.Float".equals(dataType);
+    }
+
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        // C# only supports enums as literals for int, int?, long, long?, byte, and byte?. All else must be treated as strings.
+        // Per: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/enum
+        // The approved types for an enum are byte, sbyte, short, ushort, int, uint, long, or ulong.
+        // but we're not supporting unsigned integral types or shorts.
+        if (datatype.startsWith("System.Int") || datatype.startsWith("System.Long") || datatype.startsWith("System.Byte")) {
+            return value;
+        }
+
+        return escapeText(value);
     }
 }
