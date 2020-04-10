@@ -1,0 +1,44 @@
+[
+    {{#apiInfo}}
+    {{#apis}}
+    {{#operations}}
+    {{#operation}}
+    {
+        "Name": "{{operationId}}",
+        "Description": "{{summary}}",
+        "Type": "Simple",
+        "Timeout": false,
+        "Properties": 
+        [
+            {{#returnType}}
+            {
+                "Name": "Result",
+                "Description": "{{description}}",
+                "Direction": "Out",
+                "Type": "{{>IActivityReturnTypeHelper}}",
+                "IsRequired": false,
+                "IsProjectLevel": false,
+                "Category": "Output"
+            }{{#allParams.0}},{{/allParams.0}}
+            {{/returnType}}
+            {{#allParams}}
+            {
+                "Name": "{{paramName}}",
+                "Description": "{{description}}",
+                "Direction": "In",
+                "Type": "{{>IActivityInputTypeHelper}}",
+                "IsRequired": {{required}},
+                "IsProjectLevel": false,
+                "Category": "Input"
+            }{{#hasMore}},{{/hasMore}}
+            {{/allParams}}
+        ],
+        "Imports": 
+        [
+            {{#hasImport}}"{{packageName}}"{{/hasImport}}
+        ]
+    }{{#hasMore}},{{/hasMore}}
+    {{/operation}}{{/operations}}{{#hasMore}},{{/hasMore}}
+    {{/apis}}
+    {{/apiInfo}}
+]

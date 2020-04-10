@@ -1,0 +1,1 @@
+{{#isFile}}{{{dataType}}}{{/isFile}}{{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}{{^isContainer}}{{packageName}}.{{modelPackage}}.{{{dataType}}}{{/isContainer}}{{#isContainer}}{{#isListContainer}}{{{dataType}}}{{/isListContainer}}{{#isMapContainer}}{{{dataType}}}{{/isMapContainer}}{{/isContainer}}{{/isFile}}{{/isPrimitiveType}}
