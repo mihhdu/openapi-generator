@@ -103,10 +103,27 @@ public class CsharpActivityClientCodegen extends CSharpClientCodegen {
         typeMapping.put("object", "System.Object");
         typeMapping.put("UUID", "System.Guid?");
         typeMapping.put("URI", "System.String");
+
+                // nullable type
+                nullableType = new HashSet<String>(
+                    Arrays.asList("System.Decimal", "System.Boolean", "System.Int32", "System.Float", "System.Long", "System.Double", "System.DateTime", "System.DateTimeOffset", "System.Guid")
+            );
+            // value Types
+            valueTypes = new HashSet<String>(
+                    Arrays.asList("System.Decimal", "System.Boolean", "System.Int32", "System.Float", "System.Long", "System.Double")
+            );
     }
 
     public void processOpts() {
         super.processOpts();
         supportingFiles.add(new SupportingFile("IActivity.mustache", "", "IActivities.json"));
+    }
+
+    @Override
+    public boolean isDataTypeString(String dataType) {
+        // also treat double/decimal/float as "string" in enum so that the values (e.g. 2.8) get double-quoted
+        return "System.String".equalsIgnoreCase(dataType) ||
+                "System.Double?".equals(dataType) || "System.Decimal?".equals(dataType) || "System.Float?".equals(dataType) ||
+                "System.Double".equals(dataType) || "System.Decimal".equals(dataType) || "System.Float".equals(dataType);
     }
 }
