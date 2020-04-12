@@ -35,7 +35,7 @@
         ],
         "Imports": 
         [
-            "{{packageName}}.{{apiPackage}}"
+            "{{packageName}}.{{apiPackage}}"{{#hasImport}},{{/hasImport}}
             {{#hasImport}}"{{packageName}}.{{modelPackage}}"{{/hasImport}}
         ],
         "Methods": 
