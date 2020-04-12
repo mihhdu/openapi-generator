@@ -35,8 +35,16 @@
         ],
         "Imports": 
         [
-            {{#hasImport}}"{{packageName}}"{{/hasImport}}
-        ]
+            "{{packageName}}.{{apiPackage}}"
+            {{#hasImport}}"{{packageName}}.{{modelPackage}}"{{/hasImport}}
+        ],
+        "Methods": 
+        {
+            "CallApi": 
+            [
+                {{>IActivityExecuteAsyncHelper}}
+            ]
+        }
     }{{#hasMore}},{{/hasMore}}
     {{/operation}}{{/operations}}{{#hasMore}},{{/hasMore}}
     {{/apis}}

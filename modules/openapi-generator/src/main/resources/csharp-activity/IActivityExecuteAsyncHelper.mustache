@@ -1,0 +1,5 @@
+"private async {{#returnType}}System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} ApiCall(AsyncCodeActivityContext context, CancellationToken cancellationToken)",
+"{",
+"    {{classname}} apiInstance = new {{classname}}();",
+"    {{#returnType}}return await{{/returnType}}{{^returnType}}await{{/returnType}} apiInstance.{{operationId}}Async({{#allParams}}{{paramName}}.Get(context){{#hasMore}}, {{/hasMore}}{{/allParams}});",
+"}"
