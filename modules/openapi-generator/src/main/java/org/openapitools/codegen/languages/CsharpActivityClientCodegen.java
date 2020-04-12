@@ -72,8 +72,8 @@ public class CsharpActivityClientCodegen extends CSharpClientCodegen {
                         "System.Int32?",
                         "System.Int64",
                         "System.Int64?",
-                        "System.Float",
-                        "System.Float?",
+                        "System.Single",
+                        "System.Single?",
                         "System.Guid?",
                         "System.Guid",
                         "System.IO.Stream", // not really a primitive, we include it to avoid model import
@@ -92,7 +92,7 @@ public class CsharpActivityClientCodegen extends CSharpClientCodegen {
         typeMapping.put("ByteArray", "System.Byte[]");
         typeMapping.put("boolean", "System.Boolean?");
         typeMapping.put("integer", "System.Int32?");
-        typeMapping.put("float", "System.Float?");
+        typeMapping.put("float", "System.Single?");
         typeMapping.put("long", "System.Int64?");
         typeMapping.put("double", "System.Double?");
         typeMapping.put("number", "System.Decimal?");
@@ -109,11 +109,11 @@ public class CsharpActivityClientCodegen extends CSharpClientCodegen {
 
         // nullable type
         nullableType = new HashSet<String>(
-            Arrays.asList("System.Decimal", "System.Boolean", "System.Int32", "System.Float", "System.Long", "System.Double", "System.DateTime", "System.DateTimeOffset", "System.Guid")
+            Arrays.asList("System.Decimal", "System.Boolean", "System.Int32", "System.Single", "System.Long", "System.Double", "System.DateTime", "System.DateTimeOffset", "System.Guid")
         );
         // value Types
         valueTypes = new HashSet<String>(
-                Arrays.asList("System.Decimal", "System.Boolean", "System.Int32", "System.Float", "System.Long", "System.Double")
+                Arrays.asList("System.Decimal", "System.Boolean", "System.Int32", "System.Single", "System.Long", "System.Double")
         );
     }
 
@@ -126,8 +126,8 @@ public class CsharpActivityClientCodegen extends CSharpClientCodegen {
     public boolean isDataTypeString(String dataType) {
         // also treat double/decimal/float as "string" in enum so that the values (e.g. 2.8) get double-quoted
         return "System.String".equalsIgnoreCase(dataType) ||
-                "System.Double?".equals(dataType) || "System.Decimal?".equals(dataType) || "System.Float?".equals(dataType) ||
-                "System.Double".equals(dataType) || "System.Decimal".equals(dataType) || "System.Float".equals(dataType);
+                "System.Double?".equals(dataType) || "System.Decimal?".equals(dataType) || "System.Single?".equals(dataType) ||
+                "System.Double".equals(dataType) || "System.Decimal".equals(dataType) || "System.Single".equals(dataType);
     }
 
     @Override
