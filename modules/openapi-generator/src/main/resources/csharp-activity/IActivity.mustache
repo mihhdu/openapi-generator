@@ -5,7 +5,7 @@
     {{#operation}}
     {
         "Name": "{{operationId}}",
-        "Description": "{{summary}}",
+        "Description": "{{{summary}}}",
         "Type": "Simple",
         "Timeout": false,
         "Properties": 
@@ -13,7 +13,7 @@
             {{#returnType}}
             {
                 "Name": "Result",
-                "Description": "{{description}}",
+                "Description": "The result of the operation.",
                 "Direction": "Out",
                 "Type": "{{>IActivityReturnTypeHelper}}",
                 "IsRequired": false,
@@ -24,7 +24,7 @@
             {{#allParams}}
             {
                 "Name": "{{paramName}}",
-                "Description": "{{description}}",
+                "Description": "{{{description}}}",
                 "Direction": "In",
                 "Type": "{{>IActivityInputTypeHelper}}",
                 "IsRequired": {{required}},
