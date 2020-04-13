@@ -74,6 +74,8 @@ public class CsharpActivityClientCodegen extends CSharpClientCodegen {
                         "System.Int64?",
                         "System.Single",
                         "System.Single?",
+                        "System.Decimal",
+                        "System.Decimal?",
                         "System.Guid?",
                         "System.Guid",
                         "System.IO.Stream", // not really a primitive, we include it to avoid model import
