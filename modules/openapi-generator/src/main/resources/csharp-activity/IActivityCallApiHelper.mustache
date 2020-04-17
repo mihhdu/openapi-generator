@@ -1,5 +1,2 @@
-"private async {{#returnType}}System.Threading.Tasks.Task<{{>IActivityReturnTypeHelper}}>{{/returnType}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} CallApiAsync(AsyncCodeActivityContext context, CancellationToken cancellationToken)",
-"{",
-"    {{classname}} apiInstance = new {{classname}}();",
-"    {{#returnType}}return {{#isListContainer}}({{/isListContainer}}await{{/returnType}}{{^returnType}}await{{/returnType}} apiInstance.{{operationId}}Async({{#allParams}}{{paramName}}.Get(context){{#hasMore}}, {{/hasMore}}{{/allParams}}){{#isListContainer}}).ToArray(){{/isListContainer}};",
-"}"
+"{{classname}} apiInstance = new {{classname}}();",
+"{{#returnType}}var result = {{#isListContainer}}({{/isListContainer}}await{{/returnType}}{{^returnType}}await{{/returnType}} apiInstance.{{operationId}}Async({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#isListContainer}}).ToArray(){{/isListContainer}};"
